@@ -21,7 +21,8 @@ CREATE TABLE staff(
     id_divisi int not null,
     CONSTRAINT st_id_pk PRIMARY KEY(id),
     CONSTRAINT st_id_cb_fk FOREIGN KEY(id_cabang) REFERENCES cabang(id),
-    CONSTRAINT st_id_div_fk FOREIGN KEY(id_divisi) REFERENCES divisi(id)
+    CONSTRAINT st_id_div_fk FOREIGN KEY(id_divisi) REFERENCES divisi(id),
+    CONSTRAINT chk_usia_min_17 CHECK (tanggal_lahir <= CURRENT_DATE - INTERVAL '17 years')
 );
 
 -- tabel event
