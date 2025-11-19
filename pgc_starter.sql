@@ -1,17 +1,17 @@
 CREATE TABLE cabang(
-    id int not null,
+    id serial not null,
     cabang VARCHAR(20) not null,
     CONSTRAINT cab_id_pk PRIMARY KEY(id)
 );
 
 CREATE TABLE divisi(
-    id int not null,
+    id serial not null,
     di_name VARCHAR(255) not null,
     CONSTRAINT div_id_pk PRIMARY KEY(id)
 );
 
 CREATE TABLE staff(
-    id int not null,
+    id serial not null,
     nama VARCHAR(255) not null,
     tempat_lahir varchar(20),
     tanggal_lahir date,
@@ -27,7 +27,7 @@ CREATE TABLE staff(
 
 -- tabel event
 CREATE TABLE event(
-    id int not null,
+    id serial not null,
     id_tempat int not null,
     tema_event varchar(100) not null,
 
@@ -36,7 +36,7 @@ CREATE TABLE event(
 
 -- tabel tempat
 CREATE TABLE tempat(
-    id int not null,
+    id serial not null,
     CONSTRAINT temp_id_pk PRIMARY KEY(id)
 );
 
@@ -53,8 +53,8 @@ CREATE TABLE tempat_panti(
     jml_anak int,
     min_usia int CHECK (min_usia > 0),
     max_usia int CHECK (max_usia > 0),
-    min_pendidikan varchar(10) CHECK (min_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
-    max_pendidikan varchar(10) CHECK (max_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
+    min_pendidikan varchar(15) CHECK (min_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
+    max_pendidikan varchar(15) CHECK (max_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
 
     CONSTRAINT tp_id_nama_pk PRIMARY KEY(id_tempat, nama_panti),
     CONSTRAINT tp_id_fk FOREIGN KEY(id_tempat) REFERENCES tempat(id)
@@ -93,14 +93,14 @@ CREATE TABLE partisipasi(
 );
 
 CREATE TABLE donatur(
-    id int not null,
+    id serial not null,
     nama VARCHAR(50),
 
     CONSTRAINT dtr_id_pk PRIMARY KEY(id)
 );
 
 CREATE TABLE donasi(
-    id int not null,
+    id serial not null,
     id_donatur int not null,
     tanggal date,
 
