@@ -53,8 +53,8 @@ CREATE TABLE tempat_panti(
     jml_anak int,
     min_usia int CHECK (min_usia > 0),
     max_usia int CHECK (max_usia > 0),
-    min_pendidikan varchar(15) CHECK (min_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
-    max_pendidikan varchar(15) CHECK (max_pendidikan IN ('TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
+    min_pendidikan varchar(15) CHECK (min_pendidikan IN ('BELUM SEKOLAH', 'TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
+    max_pendidikan varchar(15) CHECK (max_pendidikan IN ('BELUM SEKOLAH', 'TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3')),
 
     CONSTRAINT tp_id_nama_pk PRIMARY KEY(id_tempat, nama_panti),
     CONSTRAINT tp_id_fk FOREIGN KEY(id_tempat) REFERENCES tempat(id)
