@@ -1,117 +1,130 @@
--- Cari panti berdasarkan nama
-SELECT 
-    tp.nama_panti,
-    tp.jml_anak,
-    CONCAT(tp.min_usia, ' - ', tp.max_usia, ' tahun') as rentang_usia,
-    CONCAT(tp.min_pendidikan, ' - ', tp.max_pendidikan) as rentang_pendidikan,
-    COUNT(DISTINCT e.id) as jumlah_event
-FROM tempat_panti tp
-LEFT JOIN event e ON tp.id_tempat = e.id_tempat
-WHERE tp.nama_panti ILIKE '%Sejahtera%'
-GROUP BY tp.nama_panti, tp.jml_anak, tp.min_usia, tp.max_usia, tp.min_pendidikan, tp.max_pendidikan;
 
--- Cari staff berdasarkan nama, instansi, MBTI, atau divisi
-SELECT 
-    s.nama,
-    s.instansi,
-    s.mbti,
-    d.di_name as divisi,
-    c.cabang
+-- 1. Memelihara (enter, update, and delete) data cabang.
+-- Tambah data cabang baru
+INSERT INTO cabang (cabang) VALUES ('Semarang');
+-- Ubah data cabang berdasarkan ID
+UPDATE cabang SET cabang = 'Bandung Barat' WHERE id = 2;
+-- Hapus data cabang berdasarkan ID
+DELETE FROM cabang WHERE id = 6;
+
+-- 2. Memelihara (enter, update, and delete) data tempat panti asuhan mitra.
+-- Tambah data tempat baru untuk panti
+INSERT INTO tempat DEFAULT VALUES RETURNING id;
+INSERT INTO tempat_panti (id_tempat, nama_panti, jml_anak, min_usia, max_usia, min_pendidikan, max_pendidikan)
+VALUES (13, 'Panti Asuhan Baru', 50, 4, 17, 'TK', 'SMP');
+UPDATE tempat_panti SET jml_anak = 110 WHERE nama_panti = 'Panti Sejahtera';
+DELETE FROM tempat_panti WHERE nama_panti = 'Panti Asuhan Baru';
+DELETE FROM tempat WHERE id = 13;
+
+-- 3. Memelihara (enter, update, and delete) data staff.
+-- Tambah data staff baru
+INSERT INTO staff (nama, tempat_lahir, tanggal_lahir, mbti, instansi, id_cabang, id_divisi)
+VALUES ('Budi Santoso', 'Medan', '2005-01-01', 'INTJ', 'UI', 3, 2);
+-- Ubah data staff berdasarkan nama
+UPDATE staff SET mbti = 'ENFJ' WHERE nama = 'Budi Santoso';
+-- Hapus data staff berdasarkan nama
+DELETE FROM staff WHERE nama = 'Budi Santoso';
+
+-- 4. Memelihara (enter, update, and delete) data event.
+-- Tambah data event baru
+INSERT INTO tempat DEFAULT VALUES RETURNING id;
+-- Misalkan id baru adalah 14
+INSERT INTO event (id_tempat, tema_event) VALUES (14, 'Workshop Kepemimpinan');
+INSERT INTO event_eksternal (id_event, tanggal_mulai, tanggal_selesai, deskripsi)
+VALUES (20, '2025-12-20', '2025-12-20', 'Workshop kepemimpinan untuk anak muda');
+-- Ubah tema event
+UPDATE event SET tema_event = 'Workshop Kepemimpinan dan Softskill' WHERE id = 20;
+-- Hapus event dan data terkait
+DELETE FROM partisipasi WHERE id_event = 20;
+DELETE FROM event_eksternal WHERE id_event = 20;
+DELETE FROM event WHERE id = 20;
+
+-- 5. Memelihara (enter, update, and delete) data donasi.
+-- Tambah data donasi baru (donasi barang)
+INSERT INTO donatur (nama) VALUES ('Yayasan Harapan');
+INSERT INTO donasi (id_donatur, tanggal) VALUES (lastval(), '2025-11-19');
+INSERT INTO donasi_barang (id_donasi, keterangan, kuantitas) VALUES (lastval(), 'Perlengkapan Sekolah', 150);
+-- Ubah jumlah kuantitas donasi barang
+UPDATE donasi_barang SET kuantitas = 200 WHERE id_donasi = lastval();
+-- Hapus data donasi dan donatur terkait
+DELETE FROM donasi_barang WHERE id_donasi = lastval();
+DELETE FROM donasi WHERE id = lastval();
+DELETE FROM donatur WHERE id = lastval();
+
+-- 6. Memelihara (enter, update, and delete) data donatur.
+-- Tambah data donatur baru
+INSERT INTO donatur (nama) VALUES ('PT. ABC Sejahtera');
+-- Ubah nama donatur
+UPDATE donatur SET nama = 'PT. ABC Sejahtera Abadi' WHERE id = 9;
+-- Hapus data donatur
+DELETE FROM donatur WHERE id = 9;
+
+-- 7. Memelihara (enter, update, and delete) data divisi.
+-- Tambah data divisi baru
+INSERT INTO divisi (di_name) VALUES ('Marketing');
+-- Ubah nama divisi
+UPDATE divisi SET di_name = 'Partnership and Marketing' WHERE id = 7;
+-- Hapus data divisi
+DELETE FROM divisi WHERE id = 7;
+
+-- 8. Melakukan pencarian berdasarkan nama panti.
+SELECT tp.nama_panti, t.id
+FROM tempat_panti tp
+JOIN tempat t ON tp.id_tempat = t.id
+WHERE tp.nama_panti ILIKE '%Harapan%';
+
+-- 9. Melakukan pencarian staff berdasarkan nama, instansi asal, mbti, atau divisi.
+SELECT s.nama, s.instansi, s.mbti, d.di_name
 FROM staff s
 JOIN divisi d ON s.id_divisi = d.id
-JOIN cabang c ON s.id_cabang = c.id
-WHERE 
-    s.nama ILIKE '%Dinda%' OR
-    s.instansi ILIKE '%IPB%' OR
-    s.mbti ILIKE '%ENFJ%' OR
-    d.di_name ILIKE '%Media%';
+WHERE s.nama ILIKE '%Rizky%';
 
--- Cari event berdasarkan nama, tanggal, tema, tempat, deskripsi
-SELECT 
-    e.tema_event as nama_event,
-    ee.tanggal_mulai,
-    ee.tanggal_selesai,
-    COALESCE(tu.ruang, tp.nama_panti) as tempat,
-    ee.deskripsi
+
+-- 10. Melakukan pencarian event berdasarkan nama, atau tanggal pelaksanaan, tema, tempat, deskripsi.
+SELECT e.id, e.tema_event, ee.tanggal_mulai, ee.tanggal_selesai, ee.deskripsi, tu.ruang
 FROM event e
 LEFT JOIN event_eksternal ee ON e.id = ee.id_event
-LEFT JOIN tempat_umum tu ON e.id_tempat = tu.id_tempat
-LEFT JOIN tempat_panti tp ON e.id_tempat = tp.id_tempat
-WHERE 
-    e.tema_event ILIKE '%Workshop%' OR
-    ee.tanggal_mulai BETWEEN '2025-04-01' AND '2025-04-30' OR
-    COALESCE(tu.ruang, tp.nama_panti) ILIKE '%RKU%' OR
-    ee.deskripsi ILIKE '%puasa%';
+LEFT JOIN tempat t ON e.id_tempat = t.id
+LEFT JOIN tempat_umum tu ON t.id = tu.id_tempat
+WHERE e.tema_event ILIKE '%Workshop%';
 
--- Pencatatan demografi berdasarkan rentang umur dan jenjang pendidikan
-SELECT 
-    tp.nama_panti,
-    CASE 
-        WHEN tp.min_usia BETWEEN 3 AND 6 THEN 'Usia Dini (3-6 tahun)'
-        WHEN tp.min_usia BETWEEN 7 AND 12 THEN 'Usia Anak (7-12 tahun)'
-        WHEN tp.min_usia BETWEEN 13 AND 17 THEN 'Usia Remaja (13-17 tahun)'
-        ELSE 'Usia Dewasa Muda (18+ tahun)'
-    END as kelompok_usia,
-    CONCAT(tp.min_pendidikan, ' - ', tp.max_pendidikan) as jenjang_pendidikan,
-    tp.jml_anak as jumlah_anak,
-    ROUND(tp.jml_anak * 100.0 / SUM(tp.jml_anak) OVER (), 2) as persentase_total
-FROM tempat_panti tp
-ORDER BY tp.nama_panti, kelompok_usia;
+-- 11. Melakukan pencatatan demografi anak panti asuhan berdasarkan rentang umur dan jenjang pendidikan.
+SELECT nama_panti, min_usia, max_usia, min_pendidikan, max_pendidikan, jml_anak
+FROM tempat_panti
+WHERE nama_panti IS NOT NULL;
 
--- Cari donasi berdasarkan sumber donatur
-SELECT 
-    dt.nama as donatur,
-    d.tanggal,
-    COALESCE(du.nominal, 0) as donasi_uang,
-    COALESCE(db.keterangan, 'Tidak ada') as donasi_barang,
-    COALESCE(db.kuantitas, 0) as kuantitas
+-- 12. Melakukan pencarian donasi berdasarkan sumber donatur.
+SELECT d.id, dt.nama AS donatur, d.tanggal, du.nominal, db.keterangan, db.kuantitas
 FROM donasi d
 JOIN donatur dt ON d.id_donatur = dt.id
 LEFT JOIN donasi_uang du ON d.id = du.id_donasi
 LEFT JOIN donasi_barang db ON d.id = db.id_donasi
-WHERE dt.nama ILIKE '%Sentral Komputer%' OR dt.nama ILIKE '%Yayasan%';
+WHERE dt.nama ILIKE '%Yayasan%';
 
--- Lacak staff yang terlibat di setiap event
-SELECT 
-    e.tema_event,
-    s.nama as staff,
-    d.di_name as divisi,
-    c.cabang,
-    ee.tanggal_mulai,
-    ee.tanggal_selesai
-FROM partisipasi p
-JOIN staff s ON p.id_staff = s.id
+-- 13. Melacak keterlibatan staff pada setiap event.
+SELECT s.nama, e.tema_event, e.id AS id_event
+FROM staff s
+JOIN partisipasi p ON s.id = p.id_staff
 JOIN event e ON p.id_event = e.id
-JOIN divisi d ON s.id_divisi = d.id
-JOIN cabang c ON s.id_cabang = c.id
-LEFT JOIN event_eksternal ee ON e.id = ee.id_event
-WHERE e.tema_event ILIKE '%Ngabuburit%'
-ORDER BY ee.tanggal_mulai DESC;
+ORDER BY s.nama;
 
--- Laporan staff per divisi
-SELECT 
-    d.di_name as divisi_program,
-    COUNT(DISTINCT s.id) as total_staff,
-    COUNT(DISTINCT p.id_event) as total_event_diikuti,
-    ROUND(COUNT(DISTINCT p.id_event) * 1.0 / COUNT(DISTINCT s.id), 2) as rata_event_per_staff
-FROM divisi d
-LEFT JOIN staff s ON d.id = s.id_divisi
-LEFT JOIN partisipasi p ON s.id = p.id_staff
-GROUP BY d.id, d.di_name
-ORDER BY total_event_diikuti DESC;
+-- 14. Melaporkan keterlibatan staf per program.
+SELECT e.tema_event, COUNT(p.id_staff) AS jumlah_partisipan
+FROM event e
+JOIN partisipasi p ON e.id = p.id_event
+GROUP BY e.id, e.tema_event;
 
--- Laporan donasi per donatur
+-- 15. Melaporkan donasi berdasarkan donatur.
 SELECT 
-    dt.nama as donatur,
-    COUNT(DISTINCT d.id) as jumlah_donasi,
-    COALESCE(SUM(du.nominal), 0) as total_donasi_uang,
-    COUNT(DISTINCT db.id_donasi) as jumlah_donasi_barang,
-    MIN(d.tanggal) as donasi_pertama,
-    MAX(d.tanggal) as donasi_terakhir
+	dt.nama AS donatur,
+	COUNT(d.id) AS jumlah_donasi,
+	SUM(du.nominal) AS total_uang, 
+	SUM(db.kuantitas) AS total_barang,
+	MAX(d.tanggal) as tanggal_donasi_terakhir
 FROM donatur dt
-LEFT JOIN donasi d ON dt.id = d.id_donatur
+JOIN donasi d ON dt.id = d.id_donatur
 LEFT JOIN donasi_uang du ON d.id = du.id_donasi
 LEFT JOIN donasi_barang db ON d.id = db.id_donasi
-GROUP BY dt.id, dt.nama
-HAVING COUNT(DISTINCT d.id) > 0
-ORDER BY total_donasi_uang DESC;
+GROUP BY dt.id, dt.nama;
+
+
