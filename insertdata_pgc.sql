@@ -14,28 +14,29 @@ INSERT INTO divisi (di_name) VALUES
 ('Fund Raising');
 
 INSERT INTO staff (nama, tempat_lahir, tanggal_lahir, mbti, instansi, id_cabang, id_divisi) VALUES
-('Dinda Pratiwi', 'Bogor', '2004-03-15', 'ENFJ', 'IPB University - Ilmu Komunikasi', 1, 1),
-('Bagus Saputra', 'Depok', '2005-08-22', 'ISTJ', 'IPB University - Agribisnis', 1, 2),
-('Nadila Putri', 'Cirebon', '2004-11-08', 'INFP', 'IPB University - Psikologi Sosial', 1, 3),
-('Farhan Akbar', 'Bekasi', '2005-01-30', 'ENTJ', 'IPB University - Manajemen', 1, 4),
-('Rizky Maulana', 'Bandung', '2003-07-22', 'ISTP', 'ITB - Teknik Informatika', 2, 2),
-('Larasati Dewi', 'Garut', '2004-12-18', 'ISFP', 'ITB - Desain Produk', 2, 6),
-('Aditya Wijaya', 'Sumedang', '2003-09-05', 'INTJ', 'ITB - Fisika Terapan', 2, 1),
-('Kevin Sanjaya', 'Cimahi', '2005-04-10', 'ESTP', 'ITB - Teknik Industri', 2, 5),
-('Salsa Bilqis', 'Jakarta', '2005-05-12', 'ESFJ', 'Universitas Indonesia - Sastra Inggris', 3, 6),
-('Aurelia Citra', 'Tangerang', '2006-08-25', 'ENFP', 'Universitas Indonesia - Hubungan Internasional', 3, 3),
-('Reihan Aditya', 'Bogor', '2004-02-14', 'ENTP', 'Universitas Indonesia - Ekonomi', 3, 5),
-('Maya Sari', 'Depok', '2005-07-20', 'ISFJ', 'Universitas Indonesia - Kesejahteraan Sosial', 3, 4),
-('Budi Santoso', 'Surabaya', '2004-07-15', 'INTJ', 'ITS - Teknik Mesin', 5, 1),
-('Sri Mulyani', 'Malang', '2005-02-28', 'ESFJ', 'ITS - Teknik Kimia', 5, 2),
-('Ahmad Fauzi', 'Pasuruan', '2004-11-10', 'ENTP', 'ITS - Teknik Elektro', 5, 5),
-('Putri Ayu', 'Yogyakarta', '2005-05-20', 'ISFP', 'UGM - Psikologi', 4, 3),
-('Eko Prasetyo', 'Sleman', '2004-09-05', 'ISTJ', 'UGM - Hukum', 4, 4),
-('Lutfi Rahman', 'Bantul', '2006-01-12', 'INFP', 'UGM - Ilmu Komunikasi', 4, 6),
-('Rahmat Hidayat', 'Surabaya', '2004-06-10', 'ISFP', 'ITS - Sistem Informasi', 5, 6),
-('Siti Nurhaliza', 'Sidoarjo', '2005-09-22', 'ESFJ', 'ITS - Teknik Lingkungan', 5, 6),
-('Firman Syah', 'Bantul', '2004-11-05', 'ENTP', 'UGM - Teknik Geologi', 4, 5),
-('Dewi Kartika', 'Medan', '2006-01-17', 'INFJ', 'UGM - Arsitektur', 4, 4);
+('Dinda Pratiwi', 'Bogor', '2004-03-15', 'ENFJ', 'IPB University', 1, 1),
+('Bagus Saputra', 'Depok', '2005-08-22', 'ISTJ', 'IPB University', 1, 2),
+('Nadila Putri', 'Cirebon', '2004-11-08', 'INFP', 'IPB University', 1, 3),
+('Farhan Akbar', 'Bekasi', '2005-01-30', 'ENTJ', 'IPB University', 1, 4),
+('Rizky Maulana', 'Bandung', '2003-07-22', 'ISTP', 'ITB', 2, 2),
+('Larasati Dewi', 'Garut', '2004-12-18', 'ISFP', 'ITB', 2, 6),
+('Aditya Wijaya', 'Sumedang', '2003-09-05', 'INTJ', 'ITB', 2, 1),
+('Kevin Sanjaya', 'Cimahi', '2005-04-10', 'ESTP', 'ITB', 2, 5),
+('Salsa Bilqis', 'Jakarta', '2005-05-12', 'ESFJ', 'Universitas Indonesia', 3, 6),
+('Aurelia Citra', 'Tangerang', '2006-08-25', 'ENFP', 'Universitas Indonesia', 3, 3),
+('Reihan Aditya', 'Bogor', '2004-02-14', 'ENTP', 'Universitas Indonesia', 3, 5),
+('Maya Sari', 'Depok', '2005-07-20', 'ISFJ', 'Universitas Indonesia', 3, 4),
+('Budi Santoso', 'Surabaya', '2004-07-15', 'INTJ', 'ITS', 5, 1),
+('Sri Mulyani', 'Malang', '2005-02-28', 'ESFJ', 'ITS', 5, 2),
+('Ahmad Fauzi', 'Pasuruan', '2004-11-10', 'ENTP', 'ITS', 5, 5),
+('Putri Ayu', 'Yogyakarta', '2005-05-20', 'ISFP', 'UGM', 4, 3),
+('Eko Prasetyo', 'Sleman', '2004-09-05', 'ISTJ', 'UGM', 4, 4),
+('Lutfi Rahman', 'Bantul', '2006-01-12', 'INFP', 'UGM', 4, 6),
+('Rahmat Hidayat', 'Surabaya', '2004-06-10', 'ISFP', 'ITS', 5, 6),
+('Siti Nurhaliza', 'Sidoarjo', '2005-09-22', 'ESFJ', 'ITS', 5, 6),
+('Firman Syah', 'Bantul', '2004-11-05', 'ENTP', 'UGM', 4, 5),
+('Dewi Kartika', 'Medan', '2006-01-17', 'INFJ', 'UGM', 4, 4);
+
 
 INSERT INTO tempat DEFAULT VALUES;
 INSERT INTO tempat DEFAULT VALUES;
@@ -69,9 +70,9 @@ INSERT INTO tempat_panti (id_tempat, nama_panti, jml_anak, min_usia, max_usia, m
 (5, 'Panti Asuhan Leuwiliang', 70, 4, 19, 'BELUM SEKOLAH', 'SMA'),
 (6, 'Panti Kasih', 80, 3, 18, 'BELUM SEKOLAH', 'SMA'),
 (9, 'Panti Asuhan Harapan Bangsa', 65, 2, 16, 'BELUM SEKOLAH', 'SMP'),
-(10, 'Panti Tresna Werdha Muda', 40, 15, 18, 'BELUM SEKOLAH', 'SMA'),
+(10, 'Panti Tresna Werdha Muda', 40, 1, 18, 'BELUM SEKOLAH', 'SMA'),
 (11, 'Panti Asuhan Harapan Bangsa Surabaya', 65, 2, 16, 'BELUM SEKOLAH', 'SMP'),
-(12, 'Panti Jaya', 40, 15, 18, 'BELUM SEKOLAH', 'SMA');
+(12, 'Panti Jaya', 40, 5, 18, 'BELUM SEKOLAH', 'SMA');
 
 INSERT INTO event (id_tempat, tema_event) VALUES
 (1, 'Rapat General Cabang Bogor 1.0'),
